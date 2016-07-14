@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <button id="leak-memory"> Leak Memory </button>
+        <button id="clear-memory"> Clear Memory </button>
+        <div id="grow"></div>
+
+        <script type="text/javascript">
+            var x = [],
+                htmlElements = [];
+
+            document.getElementById('leak-memory').addEventListener(
+                'click',
+                function () {
+                    console.log('Leaking memory :/');
+
+                    for (var i = 0; i < 10000; i++) {
+                      var element = document.createElement('div');
+
+                      element.className = 'leaker';
+
+                      htmlElements.push(element);
+
+                      document.body.appendChild(element);
+                    }
+
+                    x.push(new Array(1000000).join('x'));
+                }
+            );
+
+            document.getElementById('clear-memory').addEventListener(
+                'click',
+                function () {
+                    var leakers = document.querySelectorAll('.leaker'),
+                        body = document.querySelector('body'),
+                        i;
+
+                    console.log('Clearing memory :)');
+
+                    for (i = 0; i < leakers.length; ++i) {
+                        body.removeChild(leakers[i]);
+                    }
+
+                    x = null;
+                    htmlElements = null;
+                    body = null;
+                    leakers = null;
+                }
+            );
+        </script>
+    </body>
+</html>
